@@ -1,0 +1,20 @@
+{
+  "name": "organic-httpReactor",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node ./tests/"
+  },
+  "dependencies": {
+    "organic": "0.1.1",
+    "organic-alchemy": "https://github.com/outbounder/organic-alchemy/archive/master.tar.gz",
+    "glob": "3.1.14",
+    "underscore": "1.4.4"
+  },
+  "devDependencies": {
+    "jasmine-node": "latest",
+    "request": "2.22.0",
+    "shelljs": "latest"
+  },
+  "license": "MIT"
+}
