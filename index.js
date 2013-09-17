@@ -32,6 +32,8 @@ module.exports = Organel.extend(function(plasma, dna){
   findReactions: function(c){
     if(!c) return []
 
+    var self = this;
+
     if(c.length) { // array of reaction modules
       return _.map(_.clone(c), function(definition){
         if(definition.source){
