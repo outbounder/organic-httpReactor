@@ -34,9 +34,13 @@ module.exports = Organel.extend(function(plasma, dna){
 
     if(c.length) { // array of reaction modules
       return _.map(_.clone(c), function(definition){
-        if(definition.source)
-          return require(path.join(process.cwd(),definition.source))(plasma, path)
-        else
+        if(definition.source){
+          var fn = require(path.join(process.cwd(),definition.source))
+          if(fn.length == 2)
+            return fn(self.plasma, self.config)
+          else
+            return fn(self.config)
+        } else
           return require(path.join(process.cwd(),definition))
       })
     }
