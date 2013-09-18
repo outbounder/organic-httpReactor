@@ -18,15 +18,17 @@ module.exports = Organel.extend(function(plasma, dna){
   this.loadReactions()
   this.on(this.config.capture.type, this.reactToRequest)
 },{
-  reactToRequest: function(c){
+  reactToRequest: function(incomingChemical, next){
     var self = this;
+    
     var reaction = join(
       this.findReactions(this.config.startReactions),
-      this.findReactions(c),
+      this.findReactions(incomingChemical),
       this.findReactions(this.config.endReactions))
-    reaction(c, function(c){
+
+    reaction(incomingChemical, function(c){
       if(c.err)
-        chain(self.findReactions(self.config.exceptionReactions))(c)
+        chain(self.findReactions(self.config.exceptionReactions))(c, next)
     })
   },
   findReactions: function(c){
