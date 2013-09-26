@@ -1,5 +1,5 @@
 {
-  "name": "organic-httpReactor",
+  "name": "organic-httpreactor",
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "organic": "0.1.1",
-    "organic-alchemy": "https://github.com/outbounder/organic-alchemy/archive/master.tar.gz",
+    "organic-alchemy": "0.0.0",
     "glob": "3.1.14",
     "underscore": "1.4.4"
   },
