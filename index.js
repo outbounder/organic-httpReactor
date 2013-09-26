@@ -17,14 +17,22 @@ module.exports = Organel.extend(function(plasma, dna){
 
   this.loadReactions()
   this.on(this.config.capture.type, this.reactToRequest)
+
+  this.url_cache = {}
 },{
   reactToRequest: function(incomingChemical, next){
     var self = this;
-    
-    var reaction = join(
-      this.findReactions(this.config.startReactions),
-      this.findReactions(incomingChemical),
-      this.findReactions(this.config.endReactions))
+
+    var reaction = null;
+    var url_key = incomingChemical.req.method+incomingChemical.req.url
+    if(!this.url_cache[url_key]) {
+      reaction = join(
+        this.findReactions(this.config.startReactions),
+        this.findReactions(incomingChemical),
+        this.findReactions(this.config.endReactions))
+      this.url_cache[url_key] = reaction
+    } else
+      reaction = this.url_cache[url_key]
 
     reaction(incomingChemical, function(c){
       if(c.err)
@@ -40,12 +48,21 @@ module.exports = Organel.extend(function(plasma, dna){
       return _.map(_.clone(c), function(definition){
         if(definition.source){
           var fn = require(path.join(process.cwd(),definition.source))
+          if(fn.init)
+            return fn.init(self.plasma, definition, "/")
+          if(definition.arguments)
+            return fn.apply(fn, definition.arguments)
           if(fn.length == 2)
             return fn(self.plasma, self.config)
           else
             return fn(self.config)
-        } else
-          return require(path.join(process.cwd(),definition))
+        } else{
+          var fn = require(path.join(process.cwd(),definition))
+          if(fn.length == 1)
+            return fn(self.config)
+          else
+            return fn
+        }
       })
     }
 
